@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'longevity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DB', 'django'),
@@ -83,14 +83,7 @@ WSGI_APPLICATION = 'longevity.wsgi.application'
         'PORT': os.getenv('DB_PORT', 5432)
     }
 }
-'''
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
-    }
-}
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -167,8 +160,17 @@ CACHES = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# Email backend settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # Celery settings
 CELERY_BROKER_URL = 'redis://redis:6379/0'

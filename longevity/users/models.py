@@ -54,11 +54,11 @@ class CustomUserManager(BaseUserManager):
 
         user = self.create_user(
             email=email,
-            password=make_password(password),
+            password=password,
             role=role,
             bio=bio,
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
         )
         user.is_superuser = True
         user.is_staff = True
@@ -73,10 +73,10 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    username = None
     email = models.EmailField(
         unique=True, max_length=128
     )
-    username = None
     bio = models.TextField(
         'Биография',
         blank=True
