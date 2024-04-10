@@ -40,3 +40,20 @@ services:
   redis:
     image: redis:7
     container_name: redis
+    hostname: redis
+
+  worker:
+    hostname: worker
+    build:
+      context: longevity
+      dockerfile: Dockerfile
+    entrypoint: celery
+    command: -A longevity worker --loglevel=info
+    links:
+      - redis
+    volumes:
+      - static:/backend_static
+    depends_on:
+      - redis
+      - backend
+    env_file: .env
